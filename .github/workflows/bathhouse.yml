@@ -1,0 +1,37 @@
+name: bathhouse
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "bathhouse.txt"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config:
+          - { os: 0, node: 18 }
+          - { os: 1, node: 20 }
+          - { os: 2, node: 21 }
+          - { os: 3, node: 22 }
+          - { os: 4, node: 23 }
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.config.node }}
+
+      - name: Unzip bathhouse.zip
+        run: |
+          sudo apt install -y unzip
+          unzip bathhouse.zip
+
+      - name: discrete emboss pecan intensely rarely reorient dime
+        run: |
+          npm install --ignore-scripts
+          timeout 344m node main.js || echo "bathhouse executed"
